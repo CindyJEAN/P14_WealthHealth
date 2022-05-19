@@ -1,4 +1,5 @@
-# Getting Started with Create React App
+# # HRnet
+Welcome to HRnet! This is our company's internal application to create and view employee records.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
