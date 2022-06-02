@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Modal from "react-modal/lib/components/Modal";
 import { saveEmployee } from "../../utils/saveEmployee";
 import { states } from "../../data/states";
 
@@ -17,6 +18,7 @@ const initialForm = {
 
 export default function Home() {
   const [form, setForm] = useState(initialForm);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function handleInputChange(event) {
     const target = event.target;
@@ -24,6 +26,10 @@ export default function Home() {
     const id = target.id;
     const updatedForm = { ...form, [id]: value };
     setForm(updatedForm);
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
   }
 
   return (
@@ -120,8 +126,20 @@ export default function Home() {
           <option value="humanResources">Human Resources</option>
           <option value="legal">Legal</option>
         </select>
-        <button onClick={(event) => saveEmployee(event, form)}>Save</button>
+        <button
+          onClick={(event) => {
+            saveEmployee(event, form);
+            setModalIsOpen(true);
+          }}
+        >
+          Save
+        </button>
+        {/* TODO add clear form */}
       </form>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
+        <p>Employee Created!</p>
+        <button onClick={closeModal}>Close</button>
+      </Modal>
       {/* <div id="confirmation" class="modal">Employee Created!</div> */}
       {/* TODO add modal plugin */}
     </main>
