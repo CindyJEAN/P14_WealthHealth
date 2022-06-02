@@ -20,3 +20,12 @@ label {
 .address {
   margin-top: 10px;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form button {
+  margin: 2rem 0 4rem;
+}
