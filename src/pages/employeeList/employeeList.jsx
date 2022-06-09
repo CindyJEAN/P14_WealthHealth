@@ -1,3 +1,4 @@
+import "./employeeList.css";
 import { Link } from "react-router-dom";
 import React from "react";
 import { TablePlugin } from "table-plugin";
@@ -16,7 +17,7 @@ const headCells = [
 ];
 export default function EmployeeList() {
   return (
-    <main className="container">
+    <main className="container employeeListPage">
       <h1>Current employees</h1>
       <TablePlugin data={employees} headCells={headCells} />
       <Link to="/">Home</Link>

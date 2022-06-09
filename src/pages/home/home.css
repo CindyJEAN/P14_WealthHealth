@@ -1,0 +1,17 @@
+.ReactModal__Overlay--after-open {
+  display: flex;
+}
+
+.modal {
+  display: flex;
+  border: 1px solid grey;
+  border-radius: 4px;
+  width: 200px;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  background-color: white;
+  padding: 0 1rem;
+  justify-self: center;
+  align-self: center;
+}

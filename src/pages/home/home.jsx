@@ -1,3 +1,4 @@
+import "./home.css";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-modal/lib/components/Modal";
@@ -136,7 +137,7 @@ export default function Home() {
         </button>
         {/* TODO add clear form */}
       </form>
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal">
         <p>Employee Created!</p>
         <button onClick={closeModal}>Close</button>
       </Modal>
