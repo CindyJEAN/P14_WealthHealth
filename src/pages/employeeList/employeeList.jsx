@@ -1,4 +1,5 @@
 import "./employeeList.css";
+import "table-plugin/dist/index.css";
 import { Link } from "react-router-dom";
 import React from "react";
 import { TablePlugin } from "table-plugin";

@@ -30,6 +30,7 @@ export default function Home() {
   }
 
   function closeModal() {
+    setForm(initialForm);
     setModalIsOpen(false);
   }
 
@@ -135,14 +136,12 @@ export default function Home() {
         >
           Save
         </button>
-        {/* TODO add clear form */}
+        {/* TODO add form verification */}
       </form>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal">
         <p>Employee Created!</p>
         <button onClick={closeModal}>Close</button>
       </Modal>
-      {/* <div id="confirmation" class="modal">Employee Created!</div> */}
-      {/* TODO add modal plugin */}
     </main>
   );
 }
