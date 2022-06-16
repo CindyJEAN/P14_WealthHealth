@@ -5,7 +5,7 @@ import Modal from "react-modal/lib/components/Modal";
 import { saveEmployee } from "../../utils/saveEmployee";
 import { states } from "../../data/states";
 
-const initialForm = {
+const initialFormData = {
   firstName: "",
   lastName: "",
   dateOfBirth: "",
@@ -18,19 +18,41 @@ const initialForm = {
 };
 
 export default function Home() {
-  const [form, setForm] = useState(initialForm);
+  const [formData, setFormData] = useState(initialFormData);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const id = target.id;
-    const updatedForm = { ...form, [id]: value };
-    setForm(updatedForm);
+    const updatedForm = { ...formData, [id]: value };
+    setFormData(updatedForm);
+  }
+
+  function validateForm(event) {
+    event.stopPropagation();
+    /**
+     * @type {HTMLInputElement} form
+     */
+    // @ts-ignore
+    const form = document.getElementById("createEmployee");
+    const inputs = document.querySelectorAll("input");
+    if (!form.checkValidity()) {
+      inputs.forEach((input) => {
+        if (!input.validity.valid) {
+          input.setAttribute("aria-invalid", "true");
+          return;
+        }
+        input.setAttribute("aria-invalid", "false");
+      });
+      return;
+    }
+    saveEmployee(event, formData);
+    setModalIsOpen(true);
   }
 
   function closeModal() {
-    setForm(initialForm);
+    setFormData(initialFormData);
     setModalIsOpen(false);
   }
 
@@ -43,9 +65,10 @@ export default function Home() {
       <form id="createEmployee">
         <label htmlFor="firstName">First Name</label>
         <input
-          type="text"
           id="firstName"
-          value={form?.firstName}
+          type="text"
+          required
+          value={formData?.firstName}
           onChange={handleInputChange}
         />
 
@@ -53,23 +76,26 @@ export default function Home() {
         <input
           id="lastName"
           type="text"
-          value={form?.lastName}
+          required
+          value={formData?.lastName}
           onChange={handleInputChange}
         />
 
         <label htmlFor="dateOfBirth">Date of Birth</label>
         <input
           id="dateOfBirth"
-          type="text"
-          value={form?.dateOfBirth}
+          type="date"
+          required
+          value={formData?.dateOfBirth}
           onChange={handleInputChange}
         />
 
         <label htmlFor="startDate">Start Date</label>
         <input
           id="startDate"
-          type="text"
-          value={form?.startDate}
+          type="date"
+          required
+          value={formData?.startDate}
           onChange={handleInputChange}
         />
 
@@ -80,7 +106,8 @@ export default function Home() {
           <input
             id="street"
             type="text"
-            value={form?.street}
+            required
+            value={formData?.street}
             onChange={handleInputChange}
           />
 
@@ -88,7 +115,8 @@ export default function Home() {
           <input
             id="city"
             type="text"
-            value={form?.city}
+            required
+            value={formData?.city}
             onChange={handleInputChange}
           />
 
@@ -96,9 +124,13 @@ export default function Home() {
           <select
             name="state"
             id="state"
-            value={form?.state}
+            value={formData?.state}
             onChange={handleInputChange}
+            required
           >
+            <option value={""} disabled>
+              Choose an option
+            </option>
             {states.map((state) => (
               <option key={state.abbreviation} value={state.abbreviation}>
                 {state.name}
@@ -110,7 +142,8 @@ export default function Home() {
           <input
             id="zipCode"
             type="number"
-            value={form?.zipCode}
+            required
+            value={formData?.zipCode}
             onChange={handleInputChange}
           />
         </fieldset>
@@ -119,24 +152,20 @@ export default function Home() {
         <select
           name="department"
           id="department"
-          value={form?.department}
+          value={formData?.department}
           onChange={handleInputChange}
+          required
         >
+          <option value={""} disabled>
+            Choose an option
+          </option>
           <option value="sales">Sales</option>
           <option value="marketing">Marketing</option>
           <option value="engineering">Engineering</option>
           <option value="humanResources">Human Resources</option>
           <option value="legal">Legal</option>
         </select>
-        <button
-          onClick={(event) => {
-            saveEmployee(event, form);
-            setModalIsOpen(true);
-          }}
-        >
-          Save
-        </button>
-        {/* TODO add form verification */}
+        <button onClick={validateForm}>Save</button>
       </form>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal">
         <p>Employee Created!</p>
