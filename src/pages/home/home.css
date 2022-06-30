@@ -15,3 +15,11 @@
   justify-self: center;
   align-self: center;
 }
+
+.error::after {
+  color: red;
+  content: "Le champ n'est pas valide";
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+}

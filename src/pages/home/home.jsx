@@ -1,10 +1,13 @@
 import "./home.css";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-modal/lib/components/Modal";
+import { formElements } from "./formElements";
 import { saveEmployee } from "../../utils/saveEmployee";
-import { states } from "../../data/states";
 
+/**
+ * @var {Object} initialFormData initial form values
+ */
 const initialFormData = {
   firstName: "",
   lastName: "",
@@ -17,19 +20,97 @@ const initialFormData = {
   zipCode: "",
 };
 
+function checkString(string) {
+  const regex = /^[ A-Za-z0-9'-]{2,30}/;
+  return regex.test(string);
+}
+
+function checkNumber(string) {
+  const regex = /^\d{2,}/;
+  return regex.test(string);
+}
+
+function checkDate(string, condition) {
+  const now = new Date(Date.now());
+  const dateToCheck = new Date(string);
+
+  if (condition === "dateOfBirth") {
+    const dateLimit = now.getFullYear() - 18;
+    const difference = dateToCheck.getFullYear() - dateLimit;
+    const isDateToCheckOutsideLimit = difference >= 0;
+    return !isDateToCheckOutsideLimit;
+  }
+}
+
+function validateField(type, value, id) {
+  if (type === "text") return checkString(value);
+  if (type === "number") return checkNumber(value);
+  if (type === "date") return checkDate(value, id);
+  return false;
+}
+
 export default function Home() {
   const [formData, setFormData] = useState(initialFormData);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const refs = {};
+
+  function setRef(name) {
+    refs[name] = useRef(null);
+  }
+
+  const elements = {
+    input: (data) => {
+      setRef(data.name);
+      return (
+        <div key={data.name}>
+          <label htmlFor={data.name}>{data.label}</label>
+          <input
+            ref={refs[data.name]}
+            id={data.name}
+            type={data.type}
+            // required
+            // value=""
+            onChange={handleInputChange}
+          />
+        </div>
+      );
+    },
+    select: (data) => {
+      setRef(data.name);
+      return (
+        <div key={data.name}>
+          <label htmlFor={data.name}>{data.label}</label>
+          <select
+            ref={refs[data.name]}
+            id={data.name}
+            // value=""
+            onChange={handleInputChange}
+            required
+          >
+            <option value={""} disabled>
+              Choose an option
+            </option>
+            {data.dataSet.map((element) => (
+              <option key={element.value} value={element.value}>
+                {element.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      );
+    },
+  };
 
   function handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const id = target.id;
-    const updatedForm = { ...formData, [id]: value };
-    setFormData(updatedForm);
+    const { value, id, type } = event.target;
+    formData[id] = value;
+    const isValid = validateField(type, value, id);
+    const parent = event.target.parentNode;
+    !isValid ? parent.classList.add("error") : parent.classList.remove("error");
   }
 
   function validateForm(event) {
+    event.preventDefault();
     event.stopPropagation();
     /**
      * @type {HTMLInputElement} form
@@ -37,25 +118,21 @@ export default function Home() {
     // @ts-ignore
     const form = document.getElementById("createEmployee");
     const inputs = document.querySelectorAll("input");
-    if (!form.checkValidity()) {
-      inputs.forEach((input) => {
-        if (!input.validity.valid) {
-          input.setAttribute("aria-invalid", "true");
-          return;
-        }
-        input.setAttribute("aria-invalid", "false");
-      });
-      return;
-    }
+    // for (const [key, value] of Object.entries(initialFormData)) {
+    //   const element = document.getElementById(key);
+    // }
+
+    if (document.querySelectorAll("[data-error-visible]").length > 0) return;
     saveEmployee(event, formData);
-    setModalIsOpen(true);
+    // setModalIsOpen(true);
+    //add date validation ?
+    // check si error existent + si select autre que "choose an option"
   }
 
   function closeModal() {
     setFormData(initialFormData);
     setModalIsOpen(false);
   }
-
   return (
     <main className="container">
       <h1>HRnet</h1>
@@ -63,110 +140,23 @@ export default function Home() {
       <h2>Create Employee</h2>
 
       <form id="createEmployee">
-        <label htmlFor="firstName">First Name</label>
-        <input
-          id="firstName"
-          type="text"
-          required
-          value={formData?.firstName}
-          onChange={handleInputChange}
-        />
-
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          id="lastName"
-          type="text"
-          required
-          value={formData?.lastName}
-          onChange={handleInputChange}
-        />
-
-        <label htmlFor="dateOfBirth">Date of Birth</label>
-        <input
-          id="dateOfBirth"
-          type="date"
-          required
-          value={formData?.dateOfBirth}
-          onChange={handleInputChange}
-        />
-
-        <label htmlFor="startDate">Start Date</label>
-        <input
-          id="startDate"
-          type="date"
-          required
-          value={formData?.startDate}
-          onChange={handleInputChange}
-        />
+        {formElements
+          .filter((elm) => elm.formSection === "basicInformation")
+          .map((elm) => elements[elm.tag](elm))}
 
         <fieldset className="address">
           <legend>Address</legend>
-
-          <label htmlFor="street">Street</label>
-          <input
-            id="street"
-            type="text"
-            required
-            value={formData?.street}
-            onChange={handleInputChange}
-          />
-
-          <label htmlFor="city">City</label>
-          <input
-            id="city"
-            type="text"
-            required
-            value={formData?.city}
-            onChange={handleInputChange}
-          />
-
-          <label htmlFor="state">State</label>
-          <select
-            name="state"
-            id="state"
-            value={formData?.state}
-            onChange={handleInputChange}
-            required
-          >
-            <option value={""} disabled>
-              Choose an option
-            </option>
-            {states.map((state) => (
-              <option key={state.abbreviation} value={state.abbreviation}>
-                {state.name}
-              </option>
-            ))}
-          </select>
-
-          <label htmlFor="zipCode">Zip Code</label>
-          <input
-            id="zipCode"
-            type="number"
-            required
-            value={formData?.zipCode}
-            onChange={handleInputChange}
-          />
+          {formElements
+            .filter((elm) => elm.formSection === "address")
+            .map((elm) => elements[elm.tag](elm))}
         </fieldset>
 
-        <label htmlFor="department">Department</label>
-        <select
-          name="department"
-          id="department"
-          value={formData?.department}
-          onChange={handleInputChange}
-          required
-        >
-          <option value={""} disabled>
-            Choose an option
-          </option>
-          <option value="sales">Sales</option>
-          <option value="marketing">Marketing</option>
-          <option value="engineering">Engineering</option>
-          <option value="humanResources">Human Resources</option>
-          <option value="legal">Legal</option>
-        </select>
+        {formElements
+          .filter((elm) => elm.formSection === "department")
+          .map((elm) => elements[elm.tag](elm))}
         <button onClick={validateForm}>Save</button>
       </form>
+
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal">
         <p>Employee Created!</p>
         <button onClick={closeModal}>Close</button>
