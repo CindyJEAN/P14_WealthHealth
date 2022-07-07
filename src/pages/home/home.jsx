@@ -5,100 +5,16 @@ import Modal from "react-modal/lib/components/Modal";
 import { formElements } from "./formElements";
 import { saveEmployee } from "../../utils/saveEmployee";
 import { useEffect } from "react";
+import { validateField } from "../../utils/formHelper";
 
-// /**
-//  * @var {Object} initialFormData initialFormData form values and validity
-//  */
-// const initialForm = {
-//   firstName: {
-//     value: "",
-//     isValid: false,
-//   },
-//   lastName: {
-//     value: "",
-//     isValid: false,
-//   },
-//   dateOfBirth: {
-//     value: "",
-//     isValid: false,
-//   },
-//   startDate: {
-//     value: "",
-//     isValid: false,
-//   },
-//   department: {
-//     value: "",
-//     isValid: false,
-//   },
-//   street: {
-//     value: "",
-//     isValid: false,
-//   },
-//   city: {
-//     value: "",
-//     isValid: false,
-//   },
-//   state: {
-//     value: "",
-//     isValid: false,
-//   },
-//   zipCode: {
-//     value: "",
-//     isValid: false,
-//   },
-// };
-
+/**
+ * @var {Object} initialFormData initial form values and validity
+ */
 const initialFormData = {};
 formElements.forEach((element) => {
   initialFormData[element.name] = { value: "", isValid: false };
 });
 
-function checkString(string) {
-  const regex = /^[ A-Za-z0-9'-]{2,30}/;
-  return regex.test(string);
-}
-
-function checkNumber(string) {
-  const regex = /^\d{2,}/;
-  return regex.test(string);
-}
-
-/**
- * Checks the date format and the limit if there is one.
- * @param {String} string date saved as string
- * @param {*} condition type of date to set limit condition (dateOfBirth)
- * @return {Boolean} date validity
- */
-function checkDate(string, condition) {
-  const now = new Date(Date.now());
-  const dateToCheck = new Date(string);
-  const regex = /^\d{4}[-](0?[1-9]|1[012])[-](0?[1-9]|[12][0-9]|3[01])$/;
-  const isValid = regex.test(string);
-
-  if (isValid && condition === "dateOfBirth") {
-    const dateLimit = now.getFullYear() - 18;
-    const difference = dateToCheck.getFullYear() - dateLimit;
-    const isDateToCheckOutsideLimit = difference >= 0;
-    return !isDateToCheckOutsideLimit;
-  }
-  return isValid;
-}
-
-/**
- * Calls function to check field validity depending on its type
- * @param {String} type
- * @param {String} value
- * @param {String} id
- * @return {Boolean} validity
- */
-function validateField(type, value, id) {
-  if (type === "text") return checkString(value);
-  if (type === "number") return checkNumber(value);
-  if (type === "date") return checkDate(value, id);
-  if (type === "select-one") return Boolean(value);
-  return true;
-}
-// Modal.setAppElement("#app");
 export default function Home() {
   const [formData, setFormData] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -108,6 +24,9 @@ export default function Home() {
     setFormData(initialFormData);
   }, []);
 
+  /**
+   *@type {Object} Functions that return input and select jsx
+   */
   const elements = {
     input: (data) => {
       return (
@@ -116,7 +35,7 @@ export default function Home() {
           <input
             id={data.name}
             type={data.type}
-            value={formData[data.name]?.value}
+            value={formData[data.name]?.value || ""}
             onChange={handleInputChange}
           />
         </div>
@@ -128,7 +47,7 @@ export default function Home() {
           <label htmlFor={data.name}>{data.label}</label>
           <select
             id={data.name}
-            value={formData[data.name]?.value}
+            value={formData[data.name]?.value || ""}
             onChange={handleInputChange}
             required
           >
@@ -144,6 +63,10 @@ export default function Home() {
     },
   };
 
+  /**
+   * checks if the value of the targetted element is valid, and adds to formData its value and validity.
+   * If the value is invalid, it adds the className "error" to the parent, and removes it if valid.
+   */
   function handleInputChange(event) {
     const { value, id, type } = event.target;
     const isValid = validateField(type, value, id);
@@ -161,7 +84,7 @@ export default function Home() {
   }
 
   /**
-   * checks if inputs are set as valid, sets isFormValid, and returns if form is valid
+   * checks if inputs are set as valid. It sets isFormValid as the result, and returns the result
    * @return {Boolean} isFormValid
    */
   function validateForm() {
@@ -176,7 +99,7 @@ export default function Home() {
   }
 
   /**
-   * If form is valid, saves the employee and opens message
+   * If form is valid, saves the employee and opens message modal
    */
   function sendForm(event) {
     event.preventDefault();
@@ -197,10 +120,6 @@ export default function Home() {
     setFormData(initialFormData);
     setModalIsOpen(false);
   }
-
-  // useEffect(() => {
-  //   console.log(formData);
-  // }, [formData]);
 
   return (
     <main className="container">
