@@ -23,3 +23,28 @@
   margin-top: 5px;
   font-size: 0.8rem;
 }
+
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+}
+
+.address {
+  margin-top: 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+form button {
+  margin: 2rem 0 1rem;
+}
+
+form p {
+  margin: 0;
+  color: red;
+}

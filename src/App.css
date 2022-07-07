@@ -11,21 +11,3 @@
   justify-content: center;
 }
 
-label {
-  display: block;
-  margin-top: 1rem;
-  margin-bottom: 10px;
-}
-
-.address {
-  margin-top: 10px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-form button {
-  margin: 2rem 0 4rem;
-}
