@@ -1,13 +1,19 @@
-/* .title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 90vw;
+  margin: auto;
+  max-width: 1440px;
 }
 
+
+
+/* Extra style */
+/* body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+} */

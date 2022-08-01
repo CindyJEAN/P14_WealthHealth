@@ -3,7 +3,6 @@ import "table-plugin/dist/index.css";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { TablePlugin } from "table-plugin";
-// import employees from "./employees.json";
 
 const headCells = [
   { label: "First Name", data: "firstName", type: "text" },
@@ -17,7 +16,7 @@ const headCells = [
   { label: "Zip Code", data: "zipCode", type: "text" },
 ];
 export default function EmployeeList() {
-  const [data, setData] = useState(
+  const [data] = useState(
     // @ts-ignore
     JSON.parse(localStorage.getItem("employees")) || []
   );
