@@ -1,0 +1,79 @@
+._Qe0aR button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border-radius: 6px;
+  padding: 1px 1rem;
+  border: transparent;
+  background-color: white;
+  font-size: inherit;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 20%);
+  min-width: auto;
+}
+._Qe0aR ._2RWmX {
+  cursor: auto;
+  color: grey;
+  background-color: #fafafa;
+  border: transparent;
+  box-shadow: none;
+}
+
+._Qe0aR p {
+  margin-right: 2rem;
+}
+
+._Qe0aR div {
+  margin-top: 1rem;
+}
+
+._Qe0aR button._3sodH {
+  border: transparent;
+  background-color: var(--primary);
+  color: white;
+}
+
+._Qe0aR button._2RWmX:hover {
+  border: transparent;
+  color: grey;
+  background-color: #fafafa;
+}
+
+._Qe0aR button:hover {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 6px;
+}
+
+._ujQ7c th {
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  border: 1px solid white;
+  border-left-color: var(--primary);
+}
+
+._ujQ7c td {
+  border: 1px solid transparent;
+}
+
+._ujQ7c tbody td {
+  border-bottom-color: #c9c9c9;
+  border-top-color: #c9c9c9;
+}
+
+._ujQ7c tbody td:first-of-type {
+  border-left-color: #c9c9c9;
+}
+
+._ujQ7c tbody td:last-of-type {
+  border-right-color: #c9c9c9;
+}
+
+._ujQ7c tbody tr:last-of-type td {
+  border-bottom-color: #c9c9c9;
+}
+
+svg._GCJHo {
+  opacity: 0.4;
+}

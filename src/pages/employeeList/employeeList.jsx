@@ -1,7 +1,8 @@
 import "./employeeList.css";
 import "table-plugin/dist/index.css";
-import React, { useState } from "react";
+import "./table.css";
 import { Link } from "react-router-dom";
+import React from "react";
 import { TablePlugin } from "table-plugin";
 
 const headCells = [
@@ -15,12 +16,14 @@ const headCells = [
   { label: "State", data: "state", type: "text" },
   { label: "Zip Code", data: "zipCode", type: "text" },
 ];
-export default function EmployeeList() {
-  const [data] = useState(
-    // @ts-ignore
-    JSON.parse(localStorage.getItem("employees")) || []
-  );
 
+/**
+ * Current employees table page
+ * @param {Object} props
+ * @param {Array} props.data
+ * @component
+ */
+export default function EmployeeList({ data }) {
   return (
     <main className="container employeeListPage">
       <h1>Current employees</h1>

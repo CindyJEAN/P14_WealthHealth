@@ -5,8 +5,8 @@
 .modal {
   display: flex;
   border: 1px solid grey;
-  border-radius: 4px;
-  width: 200px;
+  border-radius: 10px;
+  min-width: 200px;
   align-items: center;
   justify-content: space-between;
   margin: auto;
@@ -17,20 +17,25 @@
 }
 
 .error::after {
-  color: red;
+  color: rgb(240, 0, 52);
   content: "Le champ n'est pas valide";
   display: block;
   margin-top: 5px;
   font-size: 0.8rem;
 }
 
-label {
+h2 {
+  margin-bottom: 0;
+  margin-top: 2rem;
+}
+
+.homePage label {
   display: block;
   margin-top: 1rem;
   margin-bottom: 10px;
 }
 
-.address {
+fieldset {
   margin-top: 10px;
 }
 
@@ -46,5 +51,50 @@ form button {
 
 form p {
   margin: 0;
-  color: red;
+  color: rgb(240, 0, 52);
+}
+
+/* Extra style */
+
+.homePage label {
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+}
+
+fieldset {
+  border-radius: 5px;
+  padding: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.modal {
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 150px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  border-color: transparent;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 30%);
+}
+
+.modal p {
+  font-size: 2rem;
+  margin-top: 0;
+  font-weight: 400;
+}
+
+.homePage input,
+.homePage select {
+  width: 250px;
+}
+
+.homePage fieldset input,
+.homePage fieldset select {
+  width: 90%;
+}
+
+form button {
+  align-self: center;
 }

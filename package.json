@@ -31,5 +31,8 @@
     ">0.2%",
     "not dead",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "serve": "^14.0.1"
+  }
 }

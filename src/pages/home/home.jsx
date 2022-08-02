@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-modal/lib/components/Modal";
 import { formElements } from "./formElements";
-import { saveEmployee } from "../../utils/saveEmployee";
 import { useEffect } from "react";
 import { validateField } from "../../utils/formHelper";
 
@@ -15,7 +14,13 @@ formElements.forEach((element) => {
   initialFormData[element.name] = { value: "", isValid: false };
 });
 
-export default function Home() {
+/**
+ * Index page : form to save an employee
+ * @param {Object} props
+ * @param {Function} props.saveEmployee
+ * @component
+ */
+export default function Home({ saveEmployee }) {
   const [formData, setFormData] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [formIsValid, setFormIsValid] = useState(true);
@@ -112,17 +117,20 @@ export default function Home() {
       formDataValues[key] = value.value;
     });
 
-    saveEmployee(event, formDataValues);
     setModalIsOpen(true);
+    saveEmployee(formDataValues);
   }
 
+  /**
+   * Reinitialises form values and closes modal
+   */
   function closeModal() {
     setFormData(initialFormData);
     setModalIsOpen(false);
   }
 
   return (
-    <main className="container">
+    <main className="container homePage">
       <h1>HRnet</h1>
       <Link to="/employee-list">View Current Employees</Link>
       <h2>Create Employee</h2>
