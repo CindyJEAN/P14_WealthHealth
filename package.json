@@ -1,6 +1,6 @@
 {
   "name": "wealth-health",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -11,7 +11,7 @@
     "react-modal": "^3.15.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
-    "table-plugin": "github:CindyJEAN/table-plugin",
+    "table-plugin-react": "^1.0.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

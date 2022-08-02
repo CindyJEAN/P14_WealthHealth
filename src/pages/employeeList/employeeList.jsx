@@ -1,9 +1,9 @@
 import "./employeeList.css";
-import "table-plugin/dist/index.css";
+import "table-plugin-react/dist/index.css";
 import "./table.css";
 import { Link } from "react-router-dom";
 import React from "react";
-import { TablePlugin } from "table-plugin";
+import { TablePlugin } from "table-plugin-react";
 
 const headCells = [
   { label: "First Name", data: "firstName", type: "text" },
